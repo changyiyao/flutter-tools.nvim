@@ -147,7 +147,7 @@ function M.dart_lsp_super()
     debug_log("No active dartls server found")
     return
   end
-  client.request("dart/textDocument/super", nil, nil, 0)
+  client.request("dart/textDocument/super", lsp.util.make_position_params(), nil, 0)
 end
 
 function M.dart_reanalyze() lsp.buf_request(0, "dart/reanalyze") end
