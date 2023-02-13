@@ -42,6 +42,12 @@ function DebuggerRunner:run(paths, args, cwd, on_run_data, on_run_exit)
     end
   end
 
+  dap.listeners.after["flutter.appStarted"][plugin_identifier] = function(_, body)
+    if body and body.vmServiceUri then
+      dev_tools.register_profiler_url(body.vmServiceUri)
+    end
+  end
+
   local handle_termination = function()
     if next(before_start_logs) ~= nil then on_run_exit(before_start_logs, args) end
   end
@@ -59,7 +65,7 @@ function DebuggerRunner:run(paths, args, cwd, on_run_data, on_run_exit)
     if body and body.vmServiceUri then dev_tools.register_profiler_url(body.vmServiceUri) end
   end
 
-  dap.listeners.before["event_dart.serviceExtensionAdded"][plugin_identifier] = function(_, body)
+  dap.listeners.before["dart.serviceExtensionAdded"][plugin_identifier] = function(_, body)
     if body and body.extensionRPC and body.isolateId then
       service_extensions_isolateid[body.extensionRPC] = body.isolateId
     end
