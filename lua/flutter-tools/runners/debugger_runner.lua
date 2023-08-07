@@ -65,7 +65,7 @@ function DebuggerRunner:run(paths, args, cwd, on_run_data, on_run_exit)
     if body and body.vmServiceUri then dev_tools.register_profiler_url(body.vmServiceUri) end
   end
 
-  dap.listeners.before["dart.serviceExtensionAdded"][plugin_identifier] = function(_, body)
+  dap.listeners.before["event_dart.serviceExtensionAdded"][plugin_identifier] = function(_, body)
     if body and body.extensionRPC and body.isolateId then
       service_extensions_isolateid[body.extensionRPC] = body.isolateId
     end
